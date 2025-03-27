@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Based Solar Energy Allocation</title>
+    <style>
+        :root {
+            --primary: #1976d2;
+            --secondary: #03a9f4;
+            --accent: #ff9800;
+            --bg-light: #f5f5f5;
+            --bg-dark: #333;
+            --text-light: #f5f5f5;
+            --text-dark: #333;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: var(--text-light);
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 1rem;
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            margin-top: 0;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 0.5rem;
+        }
+        
+        .energy-distribution {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .energy-bar {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .energy-label {
+            width: 100px;
+            font-weight: bold;
+        }
+        
+        .energy-progress {
+            flex-grow: 1;
+            height: 24px;
+            background-color: #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .energy-fill {
+            height: 100%;
+            background-color: var(--secondary);
+            border-radius: 12px;
+            transition: width 0.5s;
+        }
+        
+        .energy-percentage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            font-weight: bold;
+        }
+        
+        .energy-value {
+            min-width: 60px;
+            text-align: right;
+            font-weight: bold;
+        }
+        
+        .btn {
+            background-color: var(--secondary);
+            color: var(--text-light);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary);
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .active {
+            background-color: var(--success);
+        }
+        
+        .warning {
+            background-color: var(--warning);
+        }
+        
+        .inactive {
+            background-color: var(--danger);
+        }
+        
+        .chart-container {
+            height: 250px;
+            margin-top: 1rem;
+        }
+        
+        .device-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .device-card {
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .device-priority {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .battery-indicator {
+            width: 40px;
+            height: 20px;
+            background-color: var(--success);
+            border-radius: 3px;
+            margin: 1rem auto;
+            position: relative;
+        }
+        
+        .battery-indicator::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            right: -5px;
+            width: 5px;
+            height: 14px;
+            background-color: var(--success);
+            border-radius: 0 3px 3px 0;
+        }
+        
+        footer {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AI-Based Solar Energy Allocation System</h1>
+    </header>
+    
+    <div class="container">
+        <div class="dashboard">
+            <div class="card">
+                <h3>Solar Energy Status</h3>
+                <div>
+                    <p>Current Solar Output: <span id="solar-output">750W</span></p>
+                    <p>Battery Level: <span id="battery-level">68%</span></p>
+                    <p>System Efficiency: <span id="system-efficiency">92%</span></p>
+                    <p>Status: 
+                        <span class="status-indicator active" id="system-status-indicator"></span>
+                        <span id="system-status">Generating power</span>
+                    </p>
+                </div>
+                <div class="btn-group">
+                    <button class="btn" id="refresh-btn">Refresh Status</button>
+                    <button class="btn" id="system-toggle">Toggle System</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>ML Predictions</h3>
+                <div>
+                    <p>Weather Forecast: <span id="weather-forecast">Sunny with occasional clouds</span></p>
+                    <p>Estimated Power Generation: <span id="power-generation">5.2kWh</span></p>
+                    <p>Recommended Priority: <span id="recommended-priority">Irrigation</span></p>
+                    <p>Power Saving Mode: 
+                        <span class="status-indicator inactive" id="power-saving-indicator"></span>
+                        <span id="power-saving-status">Off</span>
+                    </p>
+                </div>
+                <div class="btn-group">
+                    <button class="btn" id="power-saving-btn">Enable Power Saving</button>
+                    <button class="btn" id="update-prediction-btn">Update Predictions</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>Soil Moisture Map</h3>
+                <div class="chart-container" id="moisture-map">
+                    <!-- Moisture map will be rendered here -->
+                </div>
+                <div class="btn-group">
+                    <button class="btn" id="optimize-irrigation-btn">Optimize Irrigation</button>
+                    <button class="btn" id="view-history-btn">View History</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>Energy Distribution</h3>
+            <div class="energy-distribution" id="energy-distribution">
+                <div class="energy-bar">
+                    <div class="energy-label">Irrigation</div>
+                    <div class="energy-progress">
+                        <div class="energy-fill" id="irrigation-fill" style="width: 45%;"></div>
+                        <div class="energy-percentage" id="irrigation-percentage">45%</div>
+                    </div>
+                    <div class="energy-value" id="irrigation-value">338W</div>
+                </div>
+                
+                <div class="energy-bar">
+                    <div class="energy-label">Lights</div>
+                    <div class="energy-progress">
+                        <div class="energy-fill" id="lights-fill" style="width: 20%;"></div>
+                        <div class="energy-percentage" id="lights-percentage">20%</div>
+                    </div>
+                    <div class="energy-value" id="lights-value">150W</div>
+                </div>
+                
+                <div class="energy-bar">
+                    <div class="energy-label">Fan</div>
+                    <div class="energy-progress">
+                        <div class="energy-fill" id="fan-fill" style="width: 15%;"></div>
+                        <div class="energy-percentage" id="fan-percentage">15%</div>
+                    </div>
+                    <div class="energy-value" id="fan-value">112W</div>
+                </div>
+                
+                <div class="energy-bar">
+                    <div class="energy-label">Battery</div>
+                    <div class="energy-progress">
+                        <div class="energy-fill" id="battery-fill" style="width: 20%;"></div>
+                        <div class="energy-percentage" id="battery-percentage">20%</div>
+                    </div>
+                    <div class="energy-value" id="battery-value">150W</div>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn" id="auto-allocate-btn">Auto Allocate</button>
+                <button class="btn" id="manual-allocate-btn">Manual Allocation</button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>Connected Devices</h3>
+            <div class="device-grid" id="device-grid">
+                <div class="device-card">
+                    <div class="device-priority">1</div>
+                    <h4>Irrigation Pump</h4>
+                    <div class="status-indicator active"></div>
+                    <span>Active</span>
+                    <div class="battery-indicator"></div>
+                    <p>Power: 45W</p>
+                </div>
+                
+                <div class="device-card">
+                    <div class="device-priority">2</div>
+                    <h4>LED Lights</h4>
+                    <div class="status-indicator active"></div>
+                    <span>Active</span>
+                    <div class="battery-indicator"></div>
+                    <p>Power: 35W</p>
+                </div>
+                
+                <div class="device-card">
+                    <div class="device-priority">3</div>
+                    <h4>Ventilation Fan</h4>
+                    <div class="status-indicator active"></div>
+                    <span>Active</span>
+                    <div class="battery-indicator"></div>
+                    <p>Power: 25W</p>
+                </div>
+                
+                <div class="device-card">
+                    <div class="device-priority">4</div>
+                    <h4>Data Logger</h4>
+                    <div class="status-indicator active"></div>
+                    <span>Active</span>
+                    <div class="battery-indicator"></div>
+                    <p>Power: 5W</p>
+                </div>
+                
+                <div class="device-card">
+                    <div class="device-priority">5</div>
+                    <h4>Water Heater</h4>
+                    <div class="status-indicator inactive"></div>
+                    <span>Inactive</span>
+                    <div class="battery-indicator" style="background-color: var(--danger); opacity: 0.5;"></div>
+                    <p>Power: 0W</p>
+                </div>
+                
+                <div class="device-card">
+                    <div class="device-priority">6</div>
+                    <h4>Backup System</h4>
+                    <div class="status-indicator inactive"></div>
+                    <span>Inactive</span>
+                    <div class="battery-indicator" style="background-color: var(--danger); opacity: 0.5;"></div>
+                    <p>Power: 0W</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>Energy Trends</h3>
+            <div class="chart-container" id="energy-chart">
+                <!-- Energy chart will be rendered here -->
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>AI-Based Solar Energy Allocation System &copy; 2025</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        // Initialize moisture map
+        function initMoistureMap() {
+            const ctx = document.createElement('canvas');
+            document.getElementById('moisture-map').appendChild(ctx);
+            
+            // Sample data for moisture map
+            const data = {
+                labels: ['Zone 1', 'Zone 2', 'Zone 3', 'Zone 4', 'Zone 5', 'Zone 6'],
+                datasets: [{
+                    label: 'Soil Moisture (%)',
+                    data: [45, 62, 38, 70, 55, 42],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(153, 102, 255, 0.5)',
+                        'rgba(255, 159, 64, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Initialize energy chart
+        function initEnergyChart() {
+            const ctx = document.createElement('canvas');
+            document.getElementById('energy-chart').appendChild(ctx);
+            
+            // Sample data for energy trends
+            const data = {
+                labels: ['6AM', '8AM', '10AM', '12PM', '2PM', '4PM', '6PM'],
+                datasets: [
+                    {
+                        label: 'Solar Production (W)',
+                        data: [150, 450, 720, 850, 790, 600, 250],
+                        borderColor: '#FF9800',
+                        backgroundColor: 'rgba(255, 152, 0, 0.1)',
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Energy Consumption (W)',
+                        data: [200, 350, 500, 580, 620, 550, 400],
+                        borderColor: '#03A9F4',
+                        backgroundColor: 'rgba(3, 169, 244, 0.1)',
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Battery Level (%)',
+                        data: [60, 55, 62, 75, 85, 90, 80],
+                        borderColor: '#4CAF50',
+                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                        tension: 0.4,
+                        yAxisID: 'y1'
+                    }
+                ]
+            };
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Power (W)'
+                            }
+                        },
+                        y1: {
+                            beginAtZero: true,
+                            position: 'right',
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Battery Level (%)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Event listeners for buttons
+        document.getElementById('power-saving-btn').addEventListener('click', function() {
+            const indicator = document.getElementById('power-saving-indicator');
+            const status = document.getElementById('power-saving-status');
+            
+            if (indicator.classList.contains('inactive')) {
+                indicator.classList.remove('inactive');
+                indicator.classList.add('active');
+                status.textContent = 'On';
+                
+                // Update energy distribution when power saving is enabled
+                updateEnergyDistribution([30, 10, 10, 50]);
+            } else {
+                indicator.classList.remove('active');
+                indicator.classList.add('inactive');
+                status.textContent = 'Off';
+                
+                // Restore normal distribution
+                updateEnergyDistribution([45, 20, 15, 20]);
+            }
+        });
+        
+        document.getElementById('auto-allocate-btn').addEventListener('click', function() {
+            // Simulate ML-based allocation
+            const distribution = [
+                Math.floor(Math.random() * 30) + 30, // Irrigation
+                Math.floor(Math.random() * 15) + 10, // Lights
+                Math.floor(Math.random() * 10) + 10, // Fan
+                Math.floor(Math.random() * 20) + 20  // Battery
+            ];
+            
+            // Normalize to 100%
+            const sum = distribution.reduce((a, b) => a + b, 0);
+            const normalized = distribution.map(val => Math.round(val / sum * 100));
+            
+            // Adjust to ensure sum is 100%
+            let diff = 100 - normalized.reduce((a, b) => a + b, 0);
+            normalized[0] += diff;
+            
+            updateEnergyDistribution(normalized);
+            
+            // Update recommended priority
+            const priorities = ['Irrigation', 'Lights', 'Fan', 'Battery'];
+            const maxIndex = distribution.indexOf(Math.max(...distribution));
+            document.getElementById('recommended-priority').textContent = priorities[maxIndex];
+        });
+        
+        // Function to update energy distribution
+        function updateEnergyDistribution(values) {
+            const totalPower = 750; // Total solar output in watts
+            const components = ['irrigation', 'lights', 'fan', 'battery'];
+            
+            components.forEach((component, index) => {
+                const percentage = values[index];
+                const watts = Math.round(totalPower * percentage / 100);
+                
+                document.getElementById(`${component}-fill`).style.width = `${percentage}%`;
+                document.getElementById(`${component}-percentage`).textContent = `${percentage}%`;
+                document.getElementById(`${component}-value`).textContent = `${watts}W`;
+            });
+        }
+        
+        // Initialize
+        window.onload = function() {
+            initMoistureMap();
+            initEnergyChart();
+        };
+    </script>
+</body>
+</html>

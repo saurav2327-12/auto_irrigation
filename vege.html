@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vegetable Selection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .button:hover {
+            background-color: darkgreen;
+        }
+    </style>
+</head>
+<body>
+    <h1>Select a Vegetable</h1>
+    <div class="container">
+        <script>
+            const vegetables = [
+                "Tomato", "Potato", "Carrot", "Cabbage", "Spinach", "Broccoli", "Cauliflower", "Lettuce", "Cucumber", "Pumpkin",
+                "Radish", "Beetroot", "Onion", "Garlic", "Peas", "Bell Pepper", "Chili", "Brinjal", "Okra", "Zucchini",
+                "Celery", "Corn", "Leek", "Turnip", "Yam", "Sweet Potato", "Asparagus", "Kale", "Mushroom", "Bitter Gourd",
+                "Artichoke", "Fennel", "Parsnip", "Scallion", "Ginger", "Swiss Chard", "Mustard Greens", "Arugula", "Endive", "Chard",
+                "Watercress", "Celeriac", "Chayote", "Dill", "Edamame", "Fenugreek", "Jicama", "Kohlrabi", "Lotus Root", "Moringa",
+                "Nopales", "Rhubarb", "Sorrel", "Taro", "Wasabi", "Yuca", "Zizania", "Amaranth", "Seaweed", "Samphire",
+                "Daikon", "Gai Lan", "Pak Choi", "Fiddlehead", "Hijiki", "Komatsuna", "Mizuna", "Perilla", "Salsify", "Ulluco",
+                "Malabar Spinach", "Winged Bean", "Burdock Root", "Pepino", "Romanesco", "Sunchoke", "Tindora", "Gobo", "Mashua", "Oca",
+                "Yardlong Bean", "Cress", "Snake Gourd", "Napa Cabbage", "Peppergrass", "Welsh Onion", "Chicory", "Chrysanthemum Greens", "Horseradish", "Iceberg Lettuce",
+                "Lamb's Lettuce", "Laver", "Luffa", "Miner's Lettuce", "Mung Bean Sprouts", "Nettles", "New Zealand Spinach", "Purslane", "Radicchio", "Salsola",
+                "Sea Kale", "Shallots", "Skirret", "Tat Soi", "Tomatillo", "Udo", "Yacon", "Bamboo Shoots", "Dandelion Greens", "Fuki",
+                "Grape Leaves", "Malunggay", "Okinawan Spinach", "Pitahaya Shoots", "Rapini", "Siberian Kale", "Tepary Bean", "Toona", "Tung Ho", "Upland Cress",
+                "Vine Spinach", "Water Spinach", "Watercaltrop", "Winter Melon", "Wombok", "Wood Ear Mushroom", "Zha Cai", "Ash Gourd", "Banana Flower", "Crown Daisy",
+                "Cassava Leaves", "Chickpea Greens", "Cluster Beans", "Cowpea Leaves", "Drumstick Leaves", "Fava Beans", "Garden Rocket", "Hyacinth Beans", "Jackfruit Seeds", "Lotus Seeds",
+                "Pigeon Pea", "Sesbania Flowers", "Shepherd’s Purse", "Soybean Sprouts", "Sprouted Fenugreek", "Tarwi", "Taro Leaves", "Taro Stems", "Tender Jackfruit", "Wild Garlic",
+                "Winged Yam", "Alfalfa Sprouts", "Chinese Broccoli", "Chinese Cabbage", "Chinese Chives", "Daylily Buds", "Douchi", "Fiddlehead Ferns", "Goji Leaves", "Gurmar Leaves",
+                "Hops Shoots", "Indian Sorrel", "Kudzu Leaves", "Lamb's Quarters", "Lettuce Stems", "Lily Bulbs", "Mexican Tarragon", "Mushroom Stems", "Nasturtium Leaves", "Ogonori",
+                "Papalo", "Pea Shoots", "Peanut Sprouts", "Perpetual Spinach", "Pink Purslane", "Salsify Leaves", "Saltwort", "Sea Asparagus", "Snow Peas", "Sow Thistle",
+                "Squash Blossoms", "Starfruit Shoots", "Sunflower Greens", "Sweet Corn Shoots", "Tamarillo Leaves", "Toothache Plant", "Tree Lettuce", "Veldt Grape", "Water Clover", "Water Mimosa",
+                "White Mulberry Leaves", "Wood Sorrel", "Yam Leaves", "Yam Shoots", "Young Fennel Leaves", "Zanthoxylum Leaves", "Aloe Vera Shoots", "Bamboo Leaves", "Betel Leaves", "Brahmi Leaves",
+                "Sweet Pepper", "Purple Cauliflower", "Ice Plant", "Celtuce", "Black Radish", "Scarlet Runner Bean", "Purple Asparagus", "Elephant Garlic", "Winter Purslane", "Mountain Spinach",
+                "Sea Lettuce", "Ceylon Spinach", "Chinese Water Chestnut", "Green Bean", "Gherkin", "Golden Samphire", "Goosefoot", "Hairy Melon", "Japanese Ginger", "Mangetout",
+                "Mustard Cabbage", "Red Cabbage", "Roselle", "Siberian Ginseng", "Silverbeet", "Skunk Vine", "Soursop Leaves", "Sprouting Broccoli", "Tatsoi", "Thyme",
+                "Tree Onion", "Turmeric Leaves", "Wax Gourd", "Yardlong Cucumber", "Yellow Squash", "Zebra Tomato", "Striped Eggplant", "Purple Basil", "Sweet Dumpling Squash", "White Eggplant"
+            ];
+
+    vegetables.forEach(veg => {
+        let vegId = veg.toLowerCase().replace(/\s+/g, "-"); // Convert name to lowercase and replace spaces with dashes
+        document.write(`<a href="${vegId}.html"><button class='button'>${veg}</button></a>`);
+    });
+</script>
+
+    </div>
+</body>
+</html>

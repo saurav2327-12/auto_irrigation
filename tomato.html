@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Marketplace</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .product-box {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            background: #f9f9f9;
+            text-align: center;
+        }
+        .product-box img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .buy-button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">Buy Crop Products</h2>
+        <div class="row" id="product-list">
+            <!-- Product boxes will be added here dynamically -->
+        </div>
+    </div>
+    
+    <script>
+    const images = ["t1.jpg", "t2.webp", "t3.webp", "t4.jpg", "t5.webp", "t6.jpg" ]; // Add more images as needed
+
+    const products = [];
+    for (let i = 1; i <= 30; i++) {
+        const randomImage = images[i % images.length]; // Assign images in sequence or use Math.random() for random assignment
+
+        products.push({
+            name: "Tomatoes",
+            seller: `Seller ${i}`,
+            contact: `98765${(10000 + i).toString().slice(1)}`,
+            stock: `${Math.floor(Math.random() * 50) + 10} kg`,
+            price: `${Math.floor(Math.random() * 30) + 10} per kg`,
+            address: `Village ${String.fromCharCode(64 + (i % 26))}, State ${i}`,
+            image: randomImage
+        });
+    }
+
+    const productList = document.getElementById("product-list");
+    products.forEach(product => {
+        const productBox = document.createElement("div");
+        productBox.classList.add("col-md-4");
+        productBox.innerHTML = `
+            <div class="product-box">
+                <img src="${product.image}" alt="${product.name}">
+                <h4>${product.name}</h4>
+                <p><strong>Seller:</strong> ${product.seller}</p>
+                <p><strong>Contact:</strong> ${product.contact}</p>
+                <p><strong>Stock:</strong> ${product.stock}</p>
+                <p><strong>Price:</strong> ₹${product.price}</p>
+                <p><strong>Address:</strong> ${product.address}</p>
+                <a href="pay.html"><button class="btn btn-primary buy-button">Buy</button></a>
+            </div>
+        `;
+        productList.appendChild(productBox);
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send SMS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: calc(100% - 22px);
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #004d40;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Send SMS</h1>
+        <input type="text" id="phoneNumber" placeholder="Enter phone number">
+        <button onclick="sendSMS()">Send SMS</button>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        async function sendSMS() {
+            const apiKey = 'YXlkSUxACiWE8QnOVeryJFhcRmj21t5uITwN0pbf3aK46MdsZG37oe8PduDFqUsyx6mrwH2gXtWnzpcE'; // Replace with your Fast2SMS API key
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const smsMessage = 'Hello, this is a test message from Fast2SMS!'; // Customize your message
+
+            const url = 'https://www.fast2sms.com/dev/bulkV2';
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Authorization': apiKey,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: smsMessage,
+                    language: 'english',
+                    route: 'q', // Use 'q' for promotional, 'otp' for transactional
+                    numbers: phoneNumber
+                })
+            };
+
+            try {
+                const response = await fetch(url, options);
+                const result = await response.json();
+                if (result.return) {
+                    document.getElementById('message').innerText = 'SMS sent successfully!';
+                } else {
+                    document.getElementById('message').innerText = 'Failed to send SMS: ' + result.message;
+                }
+            } catch (error) {
+                document.getElementById('message').innerText = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

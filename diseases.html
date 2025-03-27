@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Disease Detection</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            text-align: center;
+        }
+        header {
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .intro {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .intro img {
+            width: 300px;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+        .cta {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #ff9800;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .cta:hover {
+            background: #e68900;
+        }
+        .features {
+            padding: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            font-size: 18px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        footer {
+            padding: 10px;
+            font-size: 14px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 15px;
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .back-btn:hover {
+            background: #e60000;
+        }
+        .iframe-container {
+            margin-top: 20px;
+        }
+        iframe {
+            width: 90%;
+            height: 500px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <button onclick="goBack()" class="back-btn">⬅ Back</button>
+    <header>
+        <h1>Crop Disease Detection</h1>
+        <p>Analyze and detect crop diseases with AI-powered insights.</p>
+    </header>
+    <main>
+        <section class="intro">
+            <div class="content">
+                <h2>Why Crop Disease Detection?</h2>
+                <p>Timely detection helps in reducing crop losses and improving yield.</p>
+            </div>
+        </section>
+        <section class="iframe-container">
+            <h2>Test Papers</h2>
+            <iframe src="https://flows.mira.network/flows?author=saur9360&flow=crop-diseases"></iframe>
+        </section>
+        <section class="features">
+            <h2>Key Features</h2>
+            <ul>
+                <li>AI-Powered Detection</li>
+                <li>Real-time Analysis</li>
+                <li>Easy to Use</li>
+                <li>Improved Agricultural Efficiency</li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 CropTech Solutions</p>
+    </footer>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

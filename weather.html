@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3-Day Weather Forecast</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e0f7fa;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #00796b;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            width: calc(100% - 22px);
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-top: 15px;
+            border-radius: 8px;
+            border: none;
+            background-color: #00796b;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #004d40;
+        }
+
+        #weatherResults {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .weather-day {
+            background: #f1f8e9;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .weather-day:hover {
+            transform: translateY(-5px);
+        }
+
+        .weather-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 10px;
+        }
+
+        .weather-info {
+            text-align: center;
+        }
+
+        .weather-info p {
+            margin: 8px 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .weather-info p strong {
+            color: #00796b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>3-Day Weather Forecast</h1>
+        <input type="text" id="cityInput" placeholder="Enter city name">
+        <button onclick="fetchWeather()">Get Weather</button>
+        <div id="weatherResults"></div>
+    </div>
+
+    <script>
+        function fetchWeather() {
+            const apiKey = 'beabfc4041e7480f818115037250703'; // Replace with your WeatherAPI.com key
+            const city = document.getElementById('cityInput').value;
+            const url = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=3`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const weatherDiv = document.getElementById('weatherResults');
+                    weatherDiv.innerHTML = ''; // Clear previous results
+
+                    if (data.error) {
+                        weatherDiv.innerHTML = `<p>Error: ${data.error.message}</p>`;
+                    } else {
+                        data.forecast.forecastday.forEach(day => {
+                            const date = new Date(day.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+                            const weather = day.day.condition.text;
+                            const temp = day.day.avgtemp_c;
+                            const precipitation = day.day.totalprecip_mm; // Precipitation in mm
+                            const rainChance = day.day.daily_chance_of_rain; // Rain chance in %
+                            const iconUrl = day.day.condition.icon; // Weather icon URL
+
+                            weatherDiv.innerHTML += `
+                                <div class="weather-day">
+                                    <img src="https:${iconUrl}" alt="${weather}" class="weather-icon">
+                                    <div class="weather-info">
+                                        <p><strong>Date:</strong> ${date}</p>
+                                        <p><strong>Weather:</strong> ${weather}</p>
+                                        <p><strong>Temperature:</strong> ${temp}°C</p>
+                                        <p><strong>Precipitation:</strong> ${precipitation} mm</p>
+                                        <p><strong>Rain Chance:</strong> ${rainChance}%</p>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching the weather data:', error);
+                });
+        }
+    </script>
+</body>
+</html>

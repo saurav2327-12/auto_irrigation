@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Moisture Monitoring System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Include Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Include Socket.io -->
+  <script src="https://cdn.socket.io/4.0.1/socket.io.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🌱 Automatic Irrigation System</h1>
+    
+    <!-- Dark Mode Toggle (if you have style rules) -->
+    <!-- <button type="button"  id="darkModeToggle" onclick="document.body.classList.toggle('dark-mode')">🌙 Toggle Dark Mode</button>
+     -->
+    <!-- User Input for Alerts -->
+    <!-- <h2>Set Up Alerts</h2> -->
+    
+    
+    <!-- Current Moisture and Pump Status -->
+    <!-- <h2>Moisture Level: <span id="moisture"></span></h2>
+    <h2>Pump Status: <span id="pump-status"></span></h2> -->
+    
+    <!-- Pump Control Buttons -->
+    <button onclick="connect()">Connect to Arduino</button>
+    <button onclick="sendCommand('1')" id="onB" type="button" >Turn Pump ON</button>
+    <button onclick="sendCommand('0')" id="offB" type="button">Turn Pump OFF</button>
+    
+    <!-- Moisture History Chart -->
+    <!-- <h2>Moisture Level History</h2>
+    <canvas id="moistureChart" width="400" height="110"></canvas> -->
+  </div>
+<script> 
+  let port;
+
+// Connect to Arduino via USB
+async function connect() {
+    try {
+        port = await navigator.serial.requestPort(); // User gesture required here
+        await port.open({ baudRate: 9600 });
+        console.log("Connected to Arduino!");
+    } catch (error) {
+        console.error("Error connecting: ", error);
+    }
+}
+
+// Send data to Arduino
+async function sendCommand(command) {
+    if (!port) {
+        alert("Please connect to Arduino first.");
+        return;
+    }
+    const writer = port.writable.getWriter();
+    await writer.write(new TextEncoder().encode(command));
+    writer.releaseLock();
+}
+
+
+</script>
+</body>
+</html>

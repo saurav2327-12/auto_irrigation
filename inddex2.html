@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compost Monitoring System</title>
+    <style>
+        :root {
+            --primary: #3e8914;
+            --secondary: #5eb12b;
+            --accent: #f2ae30;
+            --bg-light: #f5f5f5;
+            --bg-dark: #333;
+            --text-light: #f5f5f5;
+            --text-dark: #333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: var(--text-light);
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 1rem;
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            margin-top: 0;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 0.5rem;
+        }
+        
+        .gauge-container {
+            text-align: center;
+            padding: 1rem 0;
+        }
+        
+        .gauge {
+            width: 200px;
+            height: 100px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gauge-body {
+            width: 100%;
+            height: 200px;
+            border-radius: 200px 200px 0 0;
+            background-color: #ddd;
+            position: absolute;
+            top: 0;
+            z-index: 1;
+        }
+        
+        .gauge-fill {
+            width: 100%;
+            height: 200px;
+            border-radius: 200px 200px 0 0;
+            background-color: var(--secondary);
+            position: absolute;
+            top: 100px;
+            z-index: 2;
+            transform-origin: center bottom;
+            transition: transform 1s ease-out;
+        }
+        
+        .gauge-cover {
+            width: 150px;
+            height: 75px;
+            background-color: white;
+            border-radius: 150px 150px 0 0;
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            z-index: 3;
+        }
+        
+        .gauge-value {
+            font-size: 24px;
+            font-weight: bold;
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 4;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .btn {
+            background-color: var(--secondary);
+            color: var(--text-light);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary);
+        }
+        
+        .status {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+        
+        .status-indicator {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .active {
+            background-color: #4CAF50;
+        }
+        
+        .inactive {
+            background-color: #F44336;
+        }
+        
+        .chart-container {
+            height: 250px;
+            margin-top: 1rem;
+        }
+        
+        footer {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Solar-Powered Compost Monitoring System</h1>
+    </header>
+    
+    <div class="container">
+        <div class="dashboard">
+            <div class="card">
+                <h3>Compost Moisture</h3>
+                <div class="gauge-container">
+                    <div class="gauge">
+                        <div class="gauge-body"></div>
+                        <div class="gauge-fill" id="moisture-gauge"></div>
+                        <div class="gauge-cover"></div>
+                        <div class="gauge-value" id="moisture-value">0%</div>
+                    </div>
+                </div>
+                <div>
+                    <p>Current Moisture: <span id="current-moisture">0%</span></p>
+                    <p>Optimal Moisture: <span id="optimal-moisture">0%</span></p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>Solar Power Status</h3>
+                <div class="gauge-container">
+                    <div class="gauge">
+                        <div class="gauge-body"></div>
+                        <div class="gauge-fill" id="power-gauge"></div>
+                        <div class="gauge-cover"></div>
+                        <div class="gauge-value" id="power-value">0%</div>
+                    </div>
+                </div>
+                <div>
+                    <p>Battery Level: <span id="battery-level">0%</span></p>
+                    <p>Current Power: <span id="current-power">0W</span></p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>System Controls</h3>
+                <div class="controls">
+                    <button class="btn" id="fan-btn">Toggle Fan</button>
+                    <button class="btn" id="mixer-btn">Toggle Mixer</button>
+                    <button class="btn" id="auto-btn">Auto Mode</button>
+                </div>
+                <div class="status">
+                    <div class="status-indicator inactive" id="fan-status"></div>
+                    <p>Fan: <span id="fan-text">Inactive</span></p>
+                </div>
+                <div class="status">
+                    <div class="status-indicator inactive" id="mixer-status"></div>
+                    <p>Mixer: <span id="mixer-text">Inactive</span></p>
+                </div>
+                <div class="status">
+                    <div class="status-indicator inactive" id="auto-status"></div>
+                    <p>Auto Mode: <span id="auto-text">Inactive</span></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>Moisture & Temperature History</h3>
+            <div class="chart-container" id="history-chart">
+                <!-- Chart will be rendered here -->
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>ML Prediction</h3>
+            <p>Prediction Status: <span id="prediction-status">Running</span></p>
+            <p>Next Action: <span id="next-action">Monitoring</span></p>
+            <p>Confidence: <span id="prediction-confidence">85%</span></p>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Solar-Powered Compost Monitoring System &copy; 2025</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        // Mock data - would be replaced with actual data from Arduino
+        let mockData = {
+            moisture: 45,
+            optimalMoisture: 60,
+            powerLevel: 75,
+            batteryLevel: 80,
+            currentPower: 4.2,
+            fanStatus: false,
+            mixerStatus: false,
+            autoMode: false,
+            historyData: {
+                labels: Array.from({length: 24}, (_, i) => `${i}h`),
+                moisture: Array.from({length: 24}, () => Math.floor(Math.random() * 40) + 30),
+                temperature: Array.from({length: 24}, () => Math.floor(Math.random() * 15) + 20)
+            }
+        };
+        
+        // Update UI elements
+        function updateUI() {
+            // Update moisture gauge
+            document.getElementById('moisture-gauge').style.transform = `rotate(${mockData.moisture/100 * 180}deg)`;
+            document.getElementById('moisture-value').textContent = `${mockData.moisture}%`;
+            document.getElementById('current-moisture').textContent = `${mockData.moisture}%`;
+            document.getElementById('optimal-moisture').textContent = `${mockData.optimalMoisture}%`;
+            
+            // Update power gauge
+            document.getElementById('power-gauge').style.transform = `rotate(${mockData.powerLevel/100 * 180}deg)`;
+            document.getElementById('power-value').textContent = `${mockData.powerLevel}%`;
+            document.getElementById('battery-level').textContent = `${mockData.batteryLevel}%`;
+            document.getElementById('current-power').textContent = `${mockData.currentPower}W`;
+            
+            // Update status indicators
+            updateStatusIndicator('fan', mockData.fanStatus);
+            updateStatusIndicator('mixer', mockData.mixerStatus);
+            updateStatusIndicator('auto', mockData.autoMode);
+            
+            // Update prediction based on moisture level
+            if (Math.abs(mockData.moisture - mockData.optimalMoisture) > 15) {
+                document.getElementById('next-action').textContent = mockData.moisture < mockData.optimalMoisture ? 'Add water' : 'Activate fan';
+                document.getElementById('prediction-confidence').textContent = '92%';
+            } else if (Math.abs(mockData.moisture - mockData.optimalMoisture) > 5) {
+                document.getElementById('next-action').textContent = 'Monitoring';
+                document.getElementById('prediction-confidence').textContent = '85%';
+            } else {
+                document.getElementById('next-action').textContent = 'Optimal conditions';
+                document.getElementById('prediction-confidence').textContent = '98%';
+            }
+        }
+        
+        function updateStatusIndicator(device, status) {
+            const indicator = document.getElementById(`${device}-status`);
+            const text = document.getElementById(`${device}-text`);
+            
+            if (status) {
+                indicator.classList.remove('inactive');
+                indicator.classList.add('active');
+                text.textContent = 'Active';
+            } else {
+                indicator.classList.remove('active');
+                indicator.classList.add('inactive');
+                text.textContent = 'Inactive';
+            }
+        }
+        
+        // Initialize chart
+        function initChart() {
+            const ctx = document.createElement('canvas');
+            document.getElementById('history-chart').appendChild(ctx);
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: mockData.historyData.labels,
+                    datasets: [
+                        {
+                            label: 'Moisture (%)',
+                            data: mockData.historyData.moisture,
+                            borderColor: '#5eb12b',
+                            backgroundColor: 'rgba(94, 177, 43, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Temperature (°C)',
+                            data: mockData.historyData.temperature,
+                            borderColor: '#f2ae30',
+                            backgroundColor: 'rgba(242, 174, 48, 0.1)',
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Event listeners for buttons
+        document.getElementById('fan-btn').addEventListener('click', function() {
+            mockData.fanStatus = !mockData.fanStatus;
+            updateUI();
+        });
+        
+        document.getElementById('mixer-btn').addEventListener('click', function() {
+            mockData.mixerStatus = !mockData.mixerStatus;
+            updateUI();
+        });
+        
+        document.getElementById('auto-btn').addEventListener('click', function() {
+            mockData.autoMode = !mockData.autoMode;
+            updateUI();
+        });
+        
+        // Simulate real-time data updates
+        function simulateDataUpdates() {
+            setInterval(() => {
+                // Randomly adjust moisture level
+                mockData.moisture += Math.random() > 0.5 ? 1 : -1;
+                mockData.moisture = Math.max(0, Math.min(100, mockData.moisture));
+                
+                // Adjust power level
+                mockData.powerLevel += Math.random() > 0.7 ? Math.random() * 2 : -Math.random() * 2;
+                mockData.powerLevel = Math.max(0, Math.min(100, mockData.powerLevel));
+                
+                // Update battery based on power level
+                if (mockData.powerLevel > 50) {
+                    mockData.batteryLevel = Math.min(100, mockData.batteryLevel + 0.2);
+                } else {
+                    mockData.batteryLevel = Math.max(0, mockData.batteryLevel - 0.3);
+                }
+                
+                // Current power calculation
+                mockData.currentPower = (mockData.powerLevel / 100 * 5).toFixed(1);
+                
+                // Auto mode logic
+                if (mockData.autoMode) {
+                    if (mockData.moisture > mockData.optimalMoisture + 10) {
+                        mockData.fanStatus = true;
+                        mockData.mixerStatus = true;
+                    } else if (mockData.moisture < mockData.optimalMoisture - 10) {
+                        mockData.fanStatus = false;
+                        mockData.mixerStatus = mockData.moisture < mockData.optimalMoisture - 15;
+                    } else {
+                        mockData.fanStatus = false;
+                        mockData.mixerStatus = false;
+                    }
+                }
+                
+                updateUI();
+            }, 2000);
+        }
+        
+        // Initialize
+        window.onload = function() {
+            updateUI();
+            initChart();
+            simulateDataUpdates();
+        };
+    </script>
+</body>
+</html>

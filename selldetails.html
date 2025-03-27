@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell Your Crop</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { width: 50%; margin: auto; }
+        input, select, textarea { display: block; width: 100%; margin: 10px 0; padding: 8px; }
+        .error { color: red; font-size: 14px; }
+        button { background-color: green; color: white; padding: 10px; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Sell Your Crop</h2>
+        <form id="cropForm" enctype="multipart/form-data">
+            <label>Crop Image:</label>
+            <input type="file" id="cropImage" accept="image/*" required>
+            <span class="error" id="imageError"></span>
+            
+            <label>Crop Name:</label>
+            <input type="text" id="cropName" required>
+            <span class="error" id="cropNameError"></span>
+            
+            <label>Price (per kg):</label>
+            <input type="number" id="price" required>
+            <span class="error" id="priceError"></span>
+            
+            <label>Crop Details:</label>
+            <textarea id="details" required></textarea>
+            <span class="error" id="detailsError"></span>
+            
+            <label>State:</label>
+            <input type="text" id="state" required>
+            <span class="error" id="stateError"></span>
+            
+            <label>City:</label>
+            <input type="text" id="city" required>
+            <span class="error" id="cityError"></span>
+            
+            <label>Phone Number:</label>
+            <input type="text" id="phone" required>
+            <span class="error" id="phoneError"></span>
+            
+            <label>Address:</label>
+            <input type="text" id="address" required>
+            <span class="error" id="addressError"></span>
+            
+            <label>Quantity Available (kg):</label>
+            <input type="number" id="quantity" required>
+            <span class="error" id="quantityError"></span>
+            
+            <button type="button" onclick="validateCropForm()">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        function validateCropForm() {
+            let isValid = true;
+            
+            function showError(id, message) {
+                document.getElementById(id).innerText = message;
+            }
+
+            function clearErrors() {
+                document.querySelectorAll('.error').forEach(el => el.innerText = '');
+            }
+
+            clearErrors();
+
+            let cropImage = document.getElementById("cropImage").files.length;
+            if (cropImage === 0) {
+                showError("imageError", "Please upload an image");
+                isValid = false;
+            }
+
+            let cropName = document.getElementById("cropName").value;
+            if (cropName.trim() === "") {
+                showError("cropNameError", "Crop name required");
+                isValid = false;
+            }
+
+            let price = document.getElementById("price").value;
+            if (price <= 0) {
+                showError("priceError", "Invalid price");
+                isValid = false;
+            }
+
+            let details = document.getElementById("details").value;
+            if (details.trim() === "") {
+                showError("detailsError", "Crop details required");
+                isValid = false;
+            }
+
+            let state = document.getElementById("state").value;
+            if (state.trim() === "") {
+                showError("stateError", "State required");
+                isValid = false;
+            }
+
+            let city = document.getElementById("city").value;
+            if (city.trim() === "") {
+                showError("cityError", "City required");
+                isValid = false;
+            }
+
+            let phone = document.getElementById("phone").value;
+            if (!/^[0-9]{10}$/.test(phone)) {
+                showError("phoneError", "Invalid phone number");
+                isValid = false;
+            }
+
+            let address = document.getElementById("address").value;
+            if (address.trim() === "") {
+                showError("addressError", "Address required");
+                isValid = false;
+            }
+
+            let quantity = document.getElementById("quantity").value;
+            if (quantity <= 0) {
+                showError("quantityError", "Invalid quantity");
+                isValid = false;
+            }
+
+            if (isValid) {
+                alert("Crop listed successfully!");
+            }
+        }
+    </script>
+</body>
+</html>

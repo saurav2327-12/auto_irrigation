@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Moisture Monitoring System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Include Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Include Socket.io -->
+  <script src="https://cdn.socket.io/4.0.1/socket.io.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1  class="chn">🌱 Automatic Irrigation System</h1>
+    <!-- <button id="connectBtn"></button> -->
+    <!-- <a href="weather.html" id="weath">Go to Weather Page</a> -->
+    <a  class="chn" href="index3.html" id="control">Manual pump control</a>
+    <button  class="chn" id="reconnectSerial">Check Status</button>
+    <!-- <a href="web.html" id="mira">Education</a> -->
+  
+    
+    <!-- Dark Mode Toggle (if you have style rules) -->
+    <button  class="chn" type="button"  id="darkModeToggle" onclick="document.body.classList.toggle('dark-mode')">🌙 Toggle Dark Mode</button>
+    
+    <!-- User Input for Alerts -->
+    <!-- <h2>Set Up Alerts</h2> -->
+    
+    
+    <!-- Current Moisture and Pump Status -->
+    <h2 class="chn">Dryness Level: <span id="moisture"></span></h2>
+    <h2 class="chn">Pump Status: <span id="pump-status"></span></h2>
+    
+    <!-- Pump Control Buttons -->
+    <!-- <button onclick= " sendSMS('pumpon')" id="onB" type="button" >Turn Pump ON</button>
+    <button onclick= " sendSMS('pumpoff')" id="offB" type="button">Turn Pump OFF</button>
+    <p id="responseMessage"></p> -->
+    <!-- Moisture History Chart -->
+    <h2 class="chn">Moisture Level History</h2>
+    <canvas id="moistureChart" width="400" height="110"></canvas>
+  </div>
+<script src="script.js"></script>
+</body>
+</html>

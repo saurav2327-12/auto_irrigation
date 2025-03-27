@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Information Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { width: 50%; margin: auto; }
+        input, select { display: block; width: 100%; margin: 10px 0; padding: 8px; }
+        .error { color: red; font-size: 14px; }
+        button { background-color: green; color: white; padding: 10px; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Seller Information Form</h2>
+        <form id="sellerForm">
+            <label>Name:</label>
+            <input type="text" id="name" required>
+            <span class="error" id="nameError"></span>
+
+            <label>Phone Number:</label>
+            <input type="text" id="phone" required>
+            <span class="error" id="phoneError"></span>
+
+            <label>Email:</label>
+            <input type="email" id="email" required>
+            <span class="error" id="emailError"></span>
+
+            <label>PIN Code:</label>
+            <input type="text" id="pin" required>
+            <span class="error" id="pinError"></span>
+
+            <label>Aadhar Number:</label>
+            <input type="text" id="aadhar" required>
+            <span class="error" id="aadharError"></span>
+
+            <label>Store Description:</label>
+            <input type="text" id="store" required>
+            <span class="error" id="storeError"></span>
+
+            <label>Address:</label>
+            <input type="text" id="address" required>
+            <span class="error" id="addressError"></span>
+
+            <label>Profession:</label>
+            <select id="profession" required>
+                <option value="">Select Profession</option>
+                <option value="Farmer">Farmer</option>
+                <option value="Retailer">Retailer</option>
+                <option value="Wholesaler">Wholesaler</option>
+            </select>
+            <span class="error" id="professionError"></span>
+
+            <a href="selldetails.html"><button type="button" onclick="validateForm()">Submit</button></a>
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            let isValid = true;
+            
+            function showError(id, message) {
+                document.getElementById(id).innerText = message;
+            }
+
+            function clearErrors() {
+                document.querySelectorAll('.error').forEach(el => el.innerText = '');
+            }
+
+            clearErrors();
+
+            let name = document.getElementById("name").value;
+            if (!/^[a-zA-Z ]+$/.test(name)) {
+                showError("nameError", "Invalid name");
+                isValid = false;
+            }
+
+            let phone = document.getElementById("phone").value;
+            if (!/^[0-9]{10}$/.test(phone)) {
+                showError("phoneError", "Invalid phone number");
+                isValid = false;
+            }
+
+            let email = document.getElementById("email").value;
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showError("emailError", "Invalid email");
+                isValid = false;
+            }
+
+            let pin = document.getElementById("pin").value;
+            if (!/^[0-9]{6}$/.test(pin)) {
+                showError("pinError", "Invalid PIN code");
+                isValid = false;
+            }
+
+            let aadhar = document.getElementById("aadhar").value;
+            if (!/^[0-9]{12}$/.test(aadhar)) {
+                showError("aadharError", "Invalid Aadhar number");
+                isValid = false;
+            }
+
+            let store = document.getElementById("store").value;
+            if (store.trim() === "") {
+                showError("storeError", "Store description required");
+                isValid = false;
+            }
+
+            let address = document.getElementById("address").value;
+            if (address.trim() === "") {
+                showError("addressError", "Address required");
+                isValid = false;
+            }
+
+            let profession = document.getElementById("profession").value;
+            if (profession === "") {
+                showError("professionError", "Select a profession");
+                isValid = false;
+            }
+
+            if (isValid) {
+                alert("Form submitted successfully!");
+            }
+        }
+    </script>
+</body>
+</html>

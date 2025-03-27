@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Future Hub</title>
+    <style>
+
+
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px pink, 0 0 10px orange; }
+            50% { text-shadow: 0 0 20px yellow, 0 0 30px red; }
+            100% { text-shadow: 0 0 5px yellow, 0 0 10px orange; }
+        }
+
+        @keyframes zoomIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .headline {
+            font-size: 50px;
+            font-family: Algerian, sans-serif;
+            color: Pink;
+            animation: glow 2s infinite alternate, zoomIn 1.5s ease-in-out;
+            text-align: left;
+            padding: 5px 550px;
+        }
+
+
+.dropdown-content {
+    display: none;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    width: 150px;
+    position: absolute;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 8px;
+    text-decoration: none;
+    color: black;
+    border-bottom: 1px solid #ddd;
+}
+
+.dropdown-content a:hover {
+    background: #e0e0e0;
+}
+
+
+
+        body {
+            font-family: constantia, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #000000;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .social-icons {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+        .social-icons a {
+            margin-left: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .container {
+            display: flex;
+        }
+        .sidebar {
+            width: 200px;
+            background: #ddd;
+            padding: 10px;
+            height: 100vh;
+        }
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: black;
+            border-bottom: 1px solid #bbb;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            text-align: center;
+        }
+        .slideshow img {
+            width: 80%;
+            height: auto;
+            margin-top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .slideshow img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+.testimonials-container {
+    text-align: center;
+    background: white;
+    padding: 20px;
+}
+
+.testimonials {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.testimonial {
+    width: 30%;
+    background: #ffffff;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.testimonial img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.testimonial p {
+    font-size: 14px;
+    color: #333;
+}
+
+.user {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.location {
+    color: gray;
+    font-size: 12px;
+}
+</style>
+</head>
+<body background="21.jpg">
+    <header>
+    <h1 class="headline">AGRO - SMART</font></h1>
+        <div class="social-icons">
+     <button><a href="#"><font size="2" color="Black">LinkedIn</font></a></button>
+     <button><a href="#"><font size="2" color="Black">facebook</font></a></button>
+     <button><a href="#"><font size="2" color="Black">Twitter</font></a></button>
+    </header>
+    <div class="container">
+        <nav class="sidebar">
+            <!-- <a href="aboutus.html">About Us</a> -->
+            <a href="govt.html">Govt Schemes</a>
+            <!-- <a href="index.html">Automated Irrigation</a> -->
+            <a href="weather.html">Weather</a>
+            <!-- <a href="allocate.html">Allocate Solar Power</a> -->
+            <!-- <a href="compost.html">Compost Monitoring</a> -->
+            <!-- <a href="cropd.html">Solar Powered Plant Health Monitor</a> -->
+            <a href="smartir.html">Solar Powered Smart Irrigation </a>
+            <!-- <a href="web.html" id="mira">Advocate Education</a> -->
+            <a href="index.html" >Automated Irrigation</a>
+            <a href="diseases.html">Crop Disease</a>
+            <a href="crop.html">Crops</a>
+
+
+
+
+            <a href="javascript:void(0);" onclick="toggleBuyList()">Buy</a>
+<div id="buyList" class="dropdown-content">
+    	<a href="vege.html">Vegetables</a>
+	<a href="flower.html">Flowers</a>
+	<a href="manure.html">Manure</a>
+	<a href="cotton.html">Cotton</a>
+            <a href="hand.html">Handmade Products</a>
+            <a href="hand.html">Fruits</a>
+            <a href="hand.html">Spices</a>
+            <a href="hand.html">Coffee & Tea</a>
+            <a href="hand.html">Poultry Products</a>
+            <a href="hand.html">Cattle & Sheep</a>
+            <a href="hand.html">Fishery</a>
+            <a href="hand.html">Seeds</a>
+            <a href="hand.html">Agri Tools</a>
+            <a href="hand.html">Fertilizers</a>
+            <a href="hand.html">Nursery Plants</a>
+            <a href="hand.html">Wood & Timber</a>
+            <a href="hand.html">Agriculture Land</a>
+</div>
+
+
+
+
+
+
+
+
+            <a href="sell.html">Sell</a>
+            <!-- <a href="health.html">Health</a> -->
+            <!-- <button id="connectBtn">Sell</button> -->
+            
+        </nav>
+
+        <div class="main-content">
+            <div class="slideshow">
+                <img id="slide" src="agri13.webp">
+            </div>
+        </div>
+    </div>
+
+
+
+
+<h3><marquee direction = "left" bgcolor="black" behavior="alternate"><font color="yellow">PM Modi calls for speedy implementation of agriculture budget, keeping focus on action</marquee></font>
+<h3><marquee direction = "right" bgcolor="black" behavior="alternate"><font color="yellow">Coconut industry bets big on USFDA move to free the edible nut from food allergen tag</marquee></font>
+<br>
+<br>
+
+<div class="testimonials-container">
+    <h2>Testimonials</h2>
+    <p>What users review about this free service</p>
+
+    <div class="testimonials">
+        <div class="testimonial">
+            <p>Many many thanks for your great service, Post Ad/Listing in one minute: Now post anything related to Agriculture in one minute...</p>
+            <img src="user.jpg" alt="User 1">
+            <div class="user">Raj Kumar</div>
+            <div class="location">Karnataka</div>
+        </div>
+
+        <div class="testimonial">
+            <p>Great site for farmers! Sell anything related to agriculture. Here, people can connect with each other to buy or sell anything...</p>
+            <img src="user.jpg" alt="User 2">
+            <div class="user">Manohar</div>
+            <div class="location">Kerala</div>
+        </div>
+
+        <div class="testimonial">
+            <p>Buy or Sell near you or all over India, buying and exchanging agriculture commodities and services locally without middlemen...</p>
+            <img src="user.jpg" alt="User 3">
+            <div class="user">[Name]</div>
+            <div class="location">[Haryana]</div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <div class="footer">
+        <a href="#">About Us</a>
+        <a href="#">Contact</a>
+        <a href="#">Feedback</a>
+        <a href="#">Visitor Summary</a>
+        <a href="#">Help</a>
+        <a href="#">Newsletter</a>
+        <a href="#">Share a Friend</a>
+        <a href="#">Website Policy</a>
+        <a href="#">Sitemap</a>
+    </div>
+    <script>
+
+    function toggleBuyList() {
+        let buyList = document.getElementById("buyList");
+        if (buyList.style.display === "block") {
+            buyList.style.display = "none";
+        } else {
+            buyList.style.display = "block";
+        }
+    }
+
+        let images = ["agri13.webp", "agri14.jpg", "agri15.jpg"];
+        let index = 0;
+        function changeImage() {
+            index = (index + 1) % images.length;
+            document.getElementById("slide").src = images[index];
+        }
+        setInterval(changeImage, 3000);
+    </script>
+</body>
+</html>
